@@ -35,7 +35,9 @@ func _process(delta: float) -> void:
 	
 	while activeTiles.size() < 3:
 		var z = 0.0 if activeTiles.is_empty() else activeTiles.back().position.z - spacing
-		activeTiles.append(spawn_tile(Vector3(lanes.pick_random(), -1, z)))
+		# The ball starts over the middle lane, so the very first tile must be there.
+		var lane_x: float = lanes[lanes.size() / 2] if _tiles_spawned == 0 else lanes.pick_random()
+		activeTiles.append(spawn_tile(Vector3(lane_x, -1, z)))
 
 
 ## Called by the ball each time it bounces. Picks the scroll speed that brings the
