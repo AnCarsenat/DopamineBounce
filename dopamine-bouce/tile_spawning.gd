@@ -23,8 +23,8 @@ func _process(delta: float) -> void:
 				activeTiles.erase(tile)
 	
 	while activeTiles.size() < 3:
-		var tile = spawn_tile(Vector3(lanes.pick_random(), -1, -activeTiles.size() * spacing))
-		activeTiles.append(tile)
+		var z = 0.0 if activeTiles.is_empty() else activeTiles.back().position.z - spacing
+		activeTiles.append(spawn_tile(Vector3(lanes.pick_random(), -1, z)))
 
 
 func spawn_tile(spawn_position: Vector3) -> MeshInstance3D:
