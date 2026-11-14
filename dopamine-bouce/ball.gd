@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name ballPlayer
 
 @export var bounce_velocity: float = 15.0
 @export var gravity: float = 25.0
@@ -12,12 +13,6 @@ extends CharacterBody3D
 @export var jump_buffer_time: float = 0.12
 @export var speed: Vector3 = Vector3(0 ,1080, 0)
 
-@export_group("Speed Up")
-## Top speed as a multiple of the starting speed (1 = never speeds up).
-@export var max_speed_multiplier: float = 2.0
-## Seconds of play to go from starting speed to top speed.
-@export var speed_ramp_time: float = 90.0
-
 @export_group("Squash")
 ## How flat the ball gets on impact (0 = none, 0.5 = half height).
 @export_range(0.0, 0.8) var squash_amount: float = 0.7
@@ -30,7 +25,7 @@ extends CharacterBody3D
 @onready var _mesh_base_y: float = mesh.position.y
 @onready var _mesh_half_height: float = mesh.get_aabb().size.y * 0.5
 
-## Current game speed, 1.0 at the start up to max_speed_multiplier.
+## Current game speed, driven by GameSpeed (BPM based).
 var speed_multiplier: float = 1.0
 var _run_time: float = 0.0
 var _jump_buffer: float = 0.0
@@ -42,11 +37,15 @@ var _squash_velocity: float = 0.0
 
 var current_lane: int = 1 # 0 = Left, 1 = Center, 2 = Right
 
-
+func get_speed_multiplier()->float:
+	return speed_multiplier
 
 func _ready() -> void:
 	add_to_group("player")
-	print("added to player group")
+	# One bounce lasts 2v/g at multiplier 1, which is also the time between platforms.
+	GameSpeed.base_beat_time = 2.0 * bounce_velocity / gravity
+	GameSpeed.reset()
+	speed_multiplier = GameSpeed.multiplier
 
 
 func _physics_process(delta: float) -> void:
@@ -69,7 +68,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and _can_bounce():
 		_jump_buffer = 0.0
 		# Only change speed at a bounce so each arc stays in sync with the tiles.
-		speed_multiplier = lerpf(1.0, max_speed_multiplier, clampf(_run_time / speed_ramp_time, 0.0, 1.0))
+		speed_multiplier = GameSpeed.on_bounce(_run_time)
 		velocity.y = bounce_velocity * speed_multiplier
 		spawner.sync_to_bounce(speed_multiplier, 2.0 * bounce_velocity / (gravity * speed_multiplier))
 		_squash = squash_amount

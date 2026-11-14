@@ -64,3 +64,5 @@ size = Vector2i(416, 648)
 render_target_update_mode = 4
 
 [node name="JeuClicker" parent="HSplitContainer/ClickerContainer/SubViewport" unique_id=550232895 instance=ExtResource("1_1oj5k")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1025139161]
