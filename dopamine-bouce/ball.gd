@@ -9,6 +9,21 @@ extends CharacterBody3D
 @onready var spawner = $"../TileSpawning"
 @export var speed: Vector3 = Vector3(0 ,1080, 0)
 
+@export_group("Squash")
+## How flat the ball gets on impact (0 = none, 0.5 = half height).
+@export_range(0.0, 0.8) var squash_amount: float = 0.7
+## Spring strength pulling the ball back to round. Higher = snappier wobble.
+@export var squash_stiffness: float = 250.0
+## Lower = more jelly.
+@export var squash_damping: float = 4.0
+
+@onready var mesh: MeshInstance3D = $MeshInstance3D
+@onready var _mesh_base_y: float = mesh.position.y
+@onready var _mesh_half_height: float = mesh.get_aabb().size.y * 0.5
+
+var _squash: float = 0.0 # > 0 flattened, < 0 stretched, 0 round
+var _squash_velocity: float = 0.0
+
 
 
 var current_lane: int = 1 # 0 = Left, 1 = Center, 2 = Right
@@ -34,8 +49,24 @@ func _physics_process(delta: float) -> void:
 	# 4 Bounce on collision
 	if is_on_floor():
 		velocity.y = bounce_velocity
+		_squash = squash_amount
+		_squash_velocity = 0.0
 		if not spawner.started:
 			spawner.started = true
+
+	_update_squash(delta)
+
+
+func _update_squash(delta: float) -> void:
+	# Damped spring back to round; the overshoot gives the stretch after the squash.
+	_squash_velocity += (-squash_stiffness * _squash - squash_damping * _squash_velocity) * delta
+	_squash = clampf(_squash + _squash_velocity * delta, -0.5, 0.8)
+
+	var y_scale := 1.0 - _squash
+	var xz_scale := 1.0 / sqrt(y_scale) # keep the volume constant
+	mesh.scale = Vector3(xz_scale, y_scale, xz_scale)
+	# Keep the bottom of the ball planted while it deforms.
+	mesh.position.y = _mesh_base_y - _mesh_half_height * _squash
 
 
 func _input(event: InputEvent) -> void:
