@@ -19,16 +19,16 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# 1. Apply constant downward gravity
+
 	velocity.y -= gravity * delta
 
-	# 2. Smoothly move horizontally toward the target lane
+
 	global_position.x = lerpf(global_position.x, lanes[current_lane], switch_speed * delta)
 
-	# 3. Move the character
+
 	move_and_slide()
 
-	# 4. Trigger the upward bounce the exact frame it touches a tile
+	# 4 Bounce on collision
 	if is_on_floor():
 		velocity.y = bounce_velocity
 		if not spawner.started:
@@ -44,6 +44,7 @@ func _input(event: InputEvent) -> void:
 		elif event.is_action_pressed("ui_right"):
 			if current_lane != 2:
 				current_lane += 1
+	
 	
 
 

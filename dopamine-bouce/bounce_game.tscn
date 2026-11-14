@@ -1,32 +1,24 @@
 [gd_scene format=3 uid="uid://bctbs3vvobpj4"]
 
-[ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_563ag"]
 [ext_resource type="Script" uid="uid://jfpv6gc8y0hg" path="res://ball.gd" id="1_wg2lm"]
 [ext_resource type="Script" uid="uid://bnyiykoq2xbes" path="res://tile_spawning.gd" id="2_wg2lm"]
+[ext_resource type="Texture2D" uid="uid://ctvf0d8i4xl08" path="res://jupiter.webp" id="3_i27p3"]
 [ext_resource type="Texture2D" uid="uid://cu4215d8chbu1" path="res://starfield.jpg" id="4_i27p3"]
+[ext_resource type="Texture2D" uid="uid://cn8w2p8ltpfh5" path="res://moon.jpg" id="4_yugjq"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckion"]
-render_priority = 0
-shader = ExtResource("1_563ag")
-shader_parameter/edge_color = Color(0, 0, 0, 1)
-shader_parameter/threshold = 0.0
-shader_parameter/blend = 0.1
-shader_parameter/enable_depth_pass = true
-shader_parameter/threshold_depth = 0.0
-shader_parameter/blend_depth = 0.01
-shader_parameter/distance_fade_length = 50.0
-shader_parameter/distance_fade_blend = 20.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6kx8"]
-next_pass = SubResource("ShaderMaterial_ckion")
-albedo_color = Color(1, 0.627451, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yugjq"]
+albedo_texture = ExtResource("3_i27p3")
 
 [sub_resource type="SphereMesh" id="SphereMesh_yff3m"]
-material = SubResource("StandardMaterial3D_m6kx8")
+material = SubResource("StandardMaterial3D_yugjq")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m6kx8"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eifto"]
+albedo_texture = ExtResource("4_yugjq")
+
 [sub_resource type="BoxMesh" id="BoxMesh_m6kx8"]
+material = SubResource("StandardMaterial3D_eifto")
 size = Vector3(1.9688721, 0.3244629, 1.5187988)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_563ag"]
