@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bctbs3vvobpj4"]
+
+[ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_563ag"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckion"]
+render_priority = 0
+shader = ExtResource("1_563ag")
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/threshold = 0.0
+shader_parameter/blend = 0.1
+shader_parameter/enable_depth_pass = true
+shader_parameter/threshold_depth = 0.0
+shader_parameter/blend_depth = 0.01
+shader_parameter/distance_fade_length = 50.0
+shader_parameter/distance_fade_blend = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6kx8"]
+next_pass = SubResource("ShaderMaterial_ckion")
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yff3m"]
+material = SubResource("StandardMaterial3D_m6kx8")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_m6kx8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m6kx8"]
+size = Vector3(1.9688721, 0.3244629, 1.5187988)
+
+[node name="BounceGame" type="Node3D" unique_id=1900847533]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=363778089]
+transform = Transform3D(-0.6347304, 0.7727337, 3.3777262e-08, 0, -4.371139e-08, 1, 0.7727337, 0.6347304, 2.7744948e-08, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1051659194]
+transform = Transform3D(1, 0, 0, 0, 0.91388786, 0.40596664, 0, -0.40596664, 0.91388786, 0, 2.2585166, 7)
+
+[node name="PlayerBody" type="CharacterBody3D" parent="." unique_id=1125801000]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBody" unique_id=463268234]
+mesh = SubResource("SphereMesh_yff3m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerBody" unique_id=1979313120]
+shape = SubResource("SphereShape3D_m6kx8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1674843607]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_m6kx8")
