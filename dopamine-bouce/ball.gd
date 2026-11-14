@@ -21,6 +21,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	velocity.y -= gravity * delta
+	rotation.x += 12.0 * delta
 
 
 	global_position.x = lerpf(global_position.x, lanes[current_lane], switch_speed * delta)

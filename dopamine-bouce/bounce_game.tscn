@@ -8,6 +8,8 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yugjq"]
 albedo_texture = ExtResource("3_i27p3")
+metallic = 0.69
+roughness = 0.4
 
 [sub_resource type="SphereMesh" id="SphereMesh_yff3m"]
 material = SubResource("StandardMaterial3D_yugjq")
@@ -50,12 +52,8 @@ func _on_body_entered(body: Node3D) -> void:
 [node name="TileSpawning" type="Node3D" parent="." unique_id=1791349647]
 script = ExtResource("2_wg2lm")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1443145868]
-transform = Transform3D(0.8813034, -0.4725508, -2.0655852e-08, 0, -4.371139e-08, 1, -0.4725508, -0.8813034, -3.8522998e-08, 0, 0, 0)
-shadow_enabled = true
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1051659194]
-transform = Transform3D(1, 0, 0, 0, 0.9138879, 0.40596667, 0, -0.40596667, 0.9138879, 0, 5.8088036, 7)
+transform = Transform3D(1, 0, 0, 0, 0.91388786, 0.40596667, 0, -0.40596667, 0.91388786, 0, 5.8088036, 7)
 
 [node name="PlayerBody" type="CharacterBody3D" parent="." unique_id=1125801000]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4433928, 0)
@@ -99,5 +97,8 @@ script = SubResource("GDScript_wg2lm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028298378, 0)
 shape = SubResource("WorldBoundaryShape3D_m6kx8")
 debug_color = Color(0.87058824, 0, 0.84705883, 1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1496522030]
+transform = Transform3D(-0.6830128, -0.6830128, 0.25881904, 0.1830127, 0.18301265, 0.9659258, -0.7071068, 0.7071068, 3.090862e-08, 0, 6, 0)
 
 [connection signal="body_entered" from="DeathPlane" to="PlayerBody" method="_on_death_plane_body_entered"]
