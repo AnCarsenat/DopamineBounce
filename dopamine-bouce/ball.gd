@@ -106,11 +106,11 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("jump"):
 			_jump_buffer = jump_buffer_time
 	
-		if event.is_action_pressed("ui_left"):
+		if event.is_action_pressed("move_left"):
 			if current_lane != 0:
 				current_lane -= 1
 			print("Switched to lane: ", current_lane)
-		elif event.is_action_pressed("ui_right"):
+		elif event.is_action_pressed("move_right"):
 			if current_lane != 2:
 				current_lane += 1
 	
