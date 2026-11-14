@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://decu3cs0s0lst"]
+
+[sub_resource type="Environment" id="Environment_jxcdy"]
+background_mode = 1
+background_color = Color(0.58103293, 0.581033, 0.58103275, 1)
+background_energy_multiplier = 2.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_7fbwm"]
+
+[sub_resource type="Compositor" id="Compositor_2vgao"]
+compositor_effects = Array[CompositorEffect]([null])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7fbwm"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_jxcdy"]
+
+[node name="JeuClicker" type="Node3D" unique_id=550232895]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2002860377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=158743390]
+environment = SubResource("Environment_jxcdy")
+camera_attributes = SubResource("CameraAttributesPractical_7fbwm")
+compositor = SubResource("Compositor_2vgao")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1304178671]
+transform = Transform3D(0.6261737, -0.46137038, 0.6285252, -0.10488581, 0.7489557, 0.6542661, -0.77259666, -0.47560763, 0.4205851, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=980756025]
+material_override = SubResource("StandardMaterial3D_7fbwm")
+mesh = SubResource("SphereMesh_jxcdy")
