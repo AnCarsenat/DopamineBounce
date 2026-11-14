@@ -2,8 +2,8 @@
 
 [ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_563ag"]
 [ext_resource type="Script" uid="uid://jfpv6gc8y0hg" path="res://ball.gd" id="1_wg2lm"]
+[ext_resource type="Script" uid="uid://bnyiykoq2xbes" path="res://tile_spawning.gd" id="2_wg2lm"]
 [ext_resource type="Texture2D" uid="uid://cu4215d8chbu1" path="res://starfield.jpg" id="4_i27p3"]
-[ext_resource type="Script" uid="uid://6wxqnr07rylx" path="res://death_plane.gd" id="4_yugjq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckion"]
 render_priority = 0
@@ -44,12 +44,22 @@ background_mode = 2
 sky = SubResource("Sky_wg2lm")
 sky_rotation = Vector3(0, 0, -0.6789331)
 
+[sub_resource type="GDScript" id="GDScript_wg2lm"]
+script/source = "extends Area3D
+
+func _on_body_entered(body: Node3D) -> void:
+		print(\"body entered\")
+"
+
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_m6kx8"]
 
 [node name="BounceGame" type="Node3D" unique_id=1900847533]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=363778089]
-transform = Transform3D(-0.6347304, 0.7727337, 3.3777262e-08, 0, -4.371139e-08, 1, 0.7727337, 0.6347304, 2.7744948e-08, 0, 0, 0)
+[node name="TileSpawning" type="Node3D" parent="." unique_id=1791349647]
+script = ExtResource("2_wg2lm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1443145868]
+transform = Transform3D(0.8813034, -0.4725508, -2.0655852e-08, 0, -4.371139e-08, 1, -0.4725508, -0.8813034, -3.8522998e-08, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1051659194]
@@ -90,10 +100,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
 
 [node name="DeathPlane" type="Area3D" parent="." unique_id=1638415785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.512374, 0)
-script = ExtResource("4_yugjq")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.743, 0)
+script = SubResource("GDScript_wg2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathPlane" unique_id=1967146334]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2532854, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028298378, 0)
 shape = SubResource("WorldBoundaryShape3D_m6kx8")
 debug_color = Color(0.87058824, 0, 0.84705883, 1)
+
+[connection signal="body_entered" from="DeathPlane" to="PlayerBody" method="_on_death_plane_body_entered"]

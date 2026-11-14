@@ -6,6 +6,8 @@ extends CharacterBody3D
 
 @export var lanes: Array[float] = [-7.0, 0.0, 7.0]
 @export var switch_speed: float = 15.0
+@onready var spawner = $"../TileSpawning"
+
 
 var current_lane: int = 1 # 0 = Left, 1 = Center, 2 = Right
 
@@ -13,6 +15,7 @@ var current_lane: int = 1 # 0 = Left, 1 = Center, 2 = Right
 
 func _ready() -> void:
 	add_to_group("player")
+	print("added to player group")
 
 
 func _physics_process(delta: float) -> void:
@@ -28,6 +31,8 @@ func _physics_process(delta: float) -> void:
 	# 4. Trigger the upward bounce the exact frame it touches a tile
 	if is_on_floor():
 		velocity.y = bounce_velocity
+		if not spawner.started:
+			spawner.started = true
 
 
 func _input(event: InputEvent) -> void:
@@ -40,3 +45,7 @@ func _input(event: InputEvent) -> void:
 			if current_lane != 2:
 				current_lane += 1
 	
+
+
+func _on_death_plane_body_entered(body: Node3D) -> void:
+	get_tree().reload_current_scene()
