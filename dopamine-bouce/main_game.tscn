@@ -26,12 +26,16 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=1205059203]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
-split_offsets = PackedInt32Array(219)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offsets = PackedInt32Array(242)
+dragging_enabled = false
 dragger_visibility = 2
-split_offset = 219
+split_offset = 242
 
 [node name="BounceContainer" type="SubViewportContainer" parent="HSplitContainer" unique_id=2145237349]
 layout_mode = 2
@@ -41,7 +45,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="HSplitContainer/BounceContainer" unique_id=1699141979]
 own_world_3d = true
 handle_input_locally = false
-size = Vector2i(713, 648)
+size = Vector2i(736, 648)
 render_target_update_mode = 4
 
 [node name="BounceGame" parent="HSplitContainer/BounceContainer/SubViewport" unique_id=1900847533 instance=ExtResource("1_yx7mw")]
@@ -56,7 +60,7 @@ stretch = true
 own_world_3d = true
 handle_input_locally = false
 physics_object_picking = true
-size = Vector2i(439, 648)
+size = Vector2i(416, 648)
 render_target_update_mode = 4
 
 [node name="JeuClicker" parent="HSplitContainer/ClickerContainer/SubViewport" unique_id=550232895 instance=ExtResource("1_1oj5k")]
