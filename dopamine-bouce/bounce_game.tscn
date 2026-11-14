@@ -5,6 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://ctvf0d8i4xl08" path="res://jupiter.webp" id="3_i27p3"]
 [ext_resource type="Texture2D" uid="uid://cu4215d8chbu1" path="res://starfield.jpg" id="4_i27p3"]
 [ext_resource type="Texture2D" uid="uid://cn8w2p8ltpfh5" path="res://moon.jpg" id="4_yugjq"]
+[ext_resource type="Shader" path="res://wind_effect.gdshader" id="5_wind"]
+[ext_resource type="Script" path="res://wind_effect.gd" id="6_wind"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wind"]
+shader = ExtResource("5_wind")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yugjq"]
 albedo_texture = ExtResource("3_i27p3")
@@ -101,5 +106,18 @@ debug_color = Color(0.87058824, 0, 0.84705883, 1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1496522030]
 transform = Transform3D(-0.6830128, -0.6830128, 0.25881904, 0.1830127, 0.18301265, 0.9659258, -0.7071068, 0.7071068, 3.090862e-08, 0, 6, 0)
+
+[node name="WindLayer" type="CanvasLayer" parent="."]
+
+[node name="Wind" type="ColorRect" parent="WindLayer"]
+visible = false
+material = SubResource("ShaderMaterial_wind")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_wind")
 
 [connection signal="body_entered" from="DeathPlane" to="PlayerBody" method="_on_death_plane_body_entered"]

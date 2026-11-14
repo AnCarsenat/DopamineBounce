@@ -9,6 +9,12 @@ extends CharacterBody3D
 @onready var spawner = $"../TileSpawning"
 @export var speed: Vector3 = Vector3(0 ,1080, 0)
 
+@export_group("Speed Up")
+## Top speed as a multiple of the starting speed (1 = never speeds up).
+@export var max_speed_multiplier: float = 2.0
+## Seconds of play to go from starting speed to top speed.
+@export var speed_ramp_time: float = 90.0
+
 @export_group("Squash")
 ## How flat the ball gets on impact (0 = none, 0.5 = half height).
 @export_range(0.0, 0.8) var squash_amount: float = 0.7
@@ -20,6 +26,10 @@ extends CharacterBody3D
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var _mesh_base_y: float = mesh.position.y
 @onready var _mesh_half_height: float = mesh.get_aabb().size.y * 0.5
+
+## Current game speed, 1.0 at the start up to max_speed_multiplier.
+var speed_multiplier: float = 1.0
+var _run_time: float = 0.0
 
 var _squash: float = 0.0 # > 0 flattened, < 0 stretched, 0 round
 var _squash_velocity: float = 0.0
@@ -37,8 +47,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
-	velocity.y -= gravity * delta
-	rotation_degrees += speed * delta
+	if spawner.started:
+		_run_time += delta
+
+	# Gravity scales with the square of the speed so bounces get quicker but stay the same height.
+	velocity.y -= gravity * speed_multiplier * speed_multiplier * delta
+	rotation_degrees += speed * speed_multiplier * delta
 
 
 	global_position.x = lerpf(global_position.x, lanes[current_lane], switch_speed * delta)
@@ -48,7 +62,10 @@ func _physics_process(delta: float) -> void:
 
 	# 4 Bounce on collision
 	if is_on_floor():
-		velocity.y = bounce_velocity
+		# Only change speed at a bounce so each arc stays in sync with the tiles.
+		speed_multiplier = lerpf(1.0, max_speed_multiplier, clampf(_run_time / speed_ramp_time, 0.0, 1.0))
+		velocity.y = bounce_velocity * speed_multiplier
+		spawner.sync_to_bounce(speed_multiplier, 2.0 * bounce_velocity / (gravity * speed_multiplier))
 		_squash = squash_amount
 		_squash_velocity = 0.0
 		if not spawner.started:
