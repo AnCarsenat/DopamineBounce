@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://bctbs3vvobpj4"]
 
 [ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_563ag"]
+[ext_resource type="Script" uid="uid://jfpv6gc8y0hg" path="res://ball.gd" id="1_wg2lm"]
+[ext_resource type="Texture2D" uid="uid://cu4215d8chbu1" path="res://starfield.jpg" id="4_i27p3"]
+[ext_resource type="Script" uid="uid://6wxqnr07rylx" path="res://death_plane.gd" id="4_yugjq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckion"]
 render_priority = 0
@@ -16,7 +19,7 @@ shader_parameter/distance_fade_blend = 20.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6kx8"]
 next_pass = SubResource("ShaderMaterial_ckion")
-albedo_color = Color(0, 1, 1, 1)
+albedo_color = Color(1, 0.627451, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_yff3m"]
 material = SubResource("StandardMaterial3D_m6kx8")
@@ -26,6 +29,23 @@ material = SubResource("StandardMaterial3D_m6kx8")
 [sub_resource type="BoxMesh" id="BoxMesh_m6kx8"]
 size = Vector3(1.9688721, 0.3244629, 1.5187988)
 
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_563ag"]
+data = PackedVector3Array(-0.9844, 0.16219999, 0.7594, 0.9844, 0.16219999, 0.7594, -0.9844, -0.16219999, 0.7594, 0.9844, 0.16219999, 0.7594, 0.9844, -0.16219999, 0.7594, -0.9844, -0.16219999, 0.7594, 0.9844, 0.16219999, -0.7594, -0.9844, 0.16219999, -0.7594, 0.9844, -0.16219999, -0.7594, -0.9844, 0.16219999, -0.7594, -0.9844, -0.16219999, -0.7594, 0.9844, -0.16219999, -0.7594, 0.9844, 0.16219999, 0.7594, 0.9844, 0.16219999, -0.7594, 0.9844, -0.16219999, 0.7594, 0.9844, 0.16219999, -0.7594, 0.9844, -0.16219999, -0.7594, 0.9844, -0.16219999, 0.7594, -0.9844, 0.16219999, -0.7594, -0.9844, 0.16219999, 0.7594, -0.9844, -0.16219999, -0.7594, -0.9844, 0.16219999, 0.7594, -0.9844, -0.16219999, 0.7594, -0.9844, -0.16219999, -0.7594, 0.9844, 0.16219999, 0.7594, -0.9844, 0.16219999, 0.7594, 0.9844, 0.16219999, -0.7594, -0.9844, 0.16219999, 0.7594, -0.9844, 0.16219999, -0.7594, 0.9844, 0.16219999, -0.7594, -0.9844, -0.16219999, 0.7594, 0.9844, -0.16219999, 0.7594, -0.9844, -0.16219999, -0.7594, 0.9844, -0.16219999, 0.7594, 0.9844, -0.16219999, -0.7594, -0.9844, -0.16219999, -0.7594)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_wg2lm"]
+panorama = ExtResource("4_i27p3")
+energy_multiplier = 0.5
+
+[sub_resource type="Sky" id="Sky_wg2lm"]
+sky_material = SubResource("PanoramaSkyMaterial_wg2lm")
+
+[sub_resource type="Environment" id="Environment_m6kx8"]
+background_mode = 2
+sky = SubResource("Sky_wg2lm")
+sky_rotation = Vector3(0, 0, -0.6789331)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_m6kx8"]
+
 [node name="BounceGame" type="Node3D" unique_id=1900847533]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=363778089]
@@ -33,16 +53,47 @@ transform = Transform3D(-0.6347304, 0.7727337, 3.3777262e-08, 0, -4.371139e-08, 
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1051659194]
-transform = Transform3D(1, 0, 0, 0, 0.91388786, 0.40596664, 0, -0.40596664, 0.91388786, 0, 2.2585166, 7)
+transform = Transform3D(1, 0, 0, 0, 0.9138879, 0.40596667, 0, -0.40596667, 0.9138879, 0, 5.8088036, 7)
 
 [node name="PlayerBody" type="CharacterBody3D" parent="." unique_id=1125801000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4433928, 0)
+script = ExtResource("1_wg2lm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBody" unique_id=463268234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33667898, 0)
 mesh = SubResource("SphereMesh_yff3m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerBody" unique_id=1979313120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_m6kx8")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1674843607]
+[node name="Tile" type="MeshInstance3D" parent="." unique_id=1674843607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("BoxMesh_m6kx8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Tile" unique_id=1079232830]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tile/StaticBody3D" unique_id=686309004]
+shape = SubResource("ConcavePolygonShape3D_563ag")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1065335071]
+environment = SubResource("Environment_m6kx8")
+
+[node name="Lanes" type="Node3D" parent="." unique_id=343727576]
+
+[node name="LeftLane" type="Marker3D" parent="Lanes" unique_id=901228260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
+
+[node name="MiddleLane" type="Marker3D" parent="Lanes" unique_id=1852680548]
+
+[node name="RightLane" type="Marker3D" parent="Lanes" unique_id=579115780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
+
+[node name="DeathPlane" type="Area3D" parent="." unique_id=1638415785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.512374, 0)
+script = ExtResource("4_yugjq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathPlane" unique_id=1967146334]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2532854, 0)
+shape = SubResource("WorldBoundaryShape3D_m6kx8")
+debug_color = Color(0.87058824, 0, 0.84705883, 1)
