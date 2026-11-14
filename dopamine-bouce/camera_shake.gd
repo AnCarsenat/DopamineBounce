@@ -34,7 +34,7 @@ var _seed_counter := 0.0
 
 func _ready() -> void:
 	_camera = get_parent()
-	assert(_camera is Camera2D or _camera is Camera3D, "CameraShake must be a child of a Camera2D or Camera3D")
+	assert(_camera is Camera3D, "CameraShake must be a child of Camera3D")
 	add_to_group(GROUP)
 	_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	_noise.fractal_type = FastNoiseLite.FRACTAL_NONE

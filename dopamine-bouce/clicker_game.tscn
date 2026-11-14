@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://0bmx323epuih" path="res://clicker_game.gd" id="1_2gcxp"]
 [ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_l1c2j"]
 [ext_resource type="Script" uid="uid://d1vd1ixmojic" path="res://camera_shake.gd" id="2_shake"]
+[ext_resource type="FontFile" uid="uid://d22dvwe7o7jk" path="res://assets/VCR_OSD_MONO_1.001.ttf" id="4_3ob8g"]
+[ext_resource type="Script" uid="uid://eus218lrjveg" path="res://infohud_control.gd" id="5_yqv28"]
 
 [sub_resource type="Environment" id="Environment_jxcdy"]
 background_mode = 1
@@ -34,11 +36,15 @@ next_pass = SubResource("ShaderMaterial_q14dx")
 [sub_resource type="SphereShape3D" id="SphereShape3D_jxcdy"]
 radius = 0.729473
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_jxcdy"]
+viewport_path = NodePath("Info hud/SubViewport")
+
 [node name="JeuClicker" type="Node3D" unique_id=550232895]
 script = ExtResource("1_2gcxp")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2002860377]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.8982325)
+fov = 73.125
 
 [node name="CameraShake" type="Node" parent="Camera3D" unique_id=1048399468]
 script = ExtResource("2_shake")
@@ -51,16 +57,71 @@ compositor = SubResource("Compositor_2vgao")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1304178671]
 transform = Transform3D(0.6261737, -0.46137038, 0.6285252, -0.10488581, 0.7489557, 0.6542661, -0.77259666, -0.47560763, 0.4205851, 0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=980756025]
+[node name="MainBall" type="MeshInstance3D" parent="." unique_id=980756025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99387515, 0, 3.0931175)
 material_override = SubResource("StandardMaterial3D_7fbwm")
 mesh = SubResource("SphereMesh_jxcdy")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=1212574928]
+[node name="Area3D" type="Area3D" parent="MainBall" unique_id=1212574928]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=61094154]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainBall/Area3D" unique_id=61094154]
 shape = SubResource("SphereShape3D_jxcdy")
 debug_color = Color(0.49873668, 0, 0.05999562, 1)
 
-[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
-[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
-[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]
+[node name="Info hud" type="Sprite3D" parent="." unique_id=386469537]
+transform = Transform3D(0.8966552, 0.072639965, -0.4367298, -0.0032479519, 0.9875009, 0.15757965, 0.4427177, -0.13987608, 0.8856838, 1.3079522, 0, 2.3018026)
+pixel_size = 0.005
+texture_filter = 0
+texture = SubResource("ViewportTexture_jxcdy")
+
+[node name="SubViewport" type="SubViewport" parent="Info hud" unique_id=1433502248]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(400, 600)
+
+[node name="Control" type="Control" parent="Info hud/SubViewport" unique_id=1615957591]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FeedBG" type="ColorRect" parent="Info hud/SubViewport/Control" unique_id=1489653756]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 475.0
+color = Color(0, 0, 0, 0.29803923)
+
+[node name="InfoBG" type="ColorRect" parent="Info hud/SubViewport/Control" unique_id=2042964470]
+layout_mode = 0
+offset_top = 485.0
+offset_right = 400.0
+offset_bottom = 552.0
+color = Color(0, 0, 0, 0.29803923)
+
+[node name="Feed" type="RichTextLabel" parent="Info hud/SubViewport/Control" unique_id=2042535791]
+layout_mode = 0
+offset_right = 338.0
+offset_bottom = 297.0
+theme_override_fonts/normal_font = ExtResource("4_3ob8g")
+theme_override_font_sizes/normal_font_size = 64
+text = "A
+A
+A
+SS
+ULTRAKILL"
+
+[node name="Info" type="RichTextLabel" parent="Info hud/SubViewport/Control" unique_id=799212461]
+layout_mode = 0
+offset_top = 485.0
+offset_right = 150.0
+offset_bottom = 542.0
+theme_override_fonts/normal_font = ExtResource("4_3ob8g")
+theme_override_font_sizes/normal_font_size = 64
+text = "100C"
+
+[node name="InfohudControl" type="Node" parent="Info hud" unique_id=52065957]
+script = ExtResource("5_yqv28")
+
+[connection signal="input_event" from="MainBall/Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="MainBall/Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="MainBall/Area3D" to="." method="_on_area_3d_mouse_exited"]

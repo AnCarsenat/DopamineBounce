@@ -1,7 +1,7 @@
 extends Node3D
 
-@onready var clickArea = $Area3D
-@onready var mainSphere = $MeshInstance3D
+@onready var clickArea = $MainBall/Area3D
+@onready var mainSphere = $MainBall
 
 @onready var sceneCamera = $Camera3D
 @onready var cameraShake = $Camera3D/CameraShake
