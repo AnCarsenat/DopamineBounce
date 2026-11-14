@@ -104,23 +104,26 @@ offset_right = 338.0
 offset_bottom = 297.0
 theme_override_fonts/normal_font = ExtResource("4_3ob8g")
 theme_override_font_sizes/normal_font_size = 64
-text = "A
-A
-A
-SS
-ULTRAKILL"
+bbcode_enabled = true
+text = "[color=red]NO STATUS[/color]"
 
 [node name="Info" type="RichTextLabel" parent="Info hud/SubViewport/Control" unique_id=799212461]
 layout_mode = 0
 offset_top = 485.0
-offset_right = 150.0
-offset_bottom = 542.0
+offset_right = 400.0
+offset_bottom = 552.0
 theme_override_fonts/normal_font = ExtResource("4_3ob8g")
 theme_override_font_sizes/normal_font_size = 64
-text = "100C"
+bbcode_enabled = true
+text = "[color=red][font_size=45]NOT INITIALIZED[/font_size][/color]"
+autowrap_mode = 0
 
-[node name="InfohudControl" type="Node" parent="Info hud" unique_id=52065957]
+[node name="InfohudControl" type="Node" parent="Info hud/SubViewport" unique_id=52065957]
 script = ExtResource("5_yqv28")
+
+[node name="CalculateTps" type="Timer" parent="." unique_id=1427894935]
+wait_time = 2.0
+autostart = true
 
 [connection signal="input_event" from="MainBall/Area3D" to="." method="_on_area_3d_input_event"]
 [connection signal="mouse_entered" from="MainBall/Area3D" to="." method="_on_area_3d_mouse_entered"]
