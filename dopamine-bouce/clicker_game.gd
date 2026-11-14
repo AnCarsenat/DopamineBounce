@@ -34,7 +34,13 @@ const mainSphere_ScaleSpeed = 12.0 # higher = snappier
 func _process(_delta: float) -> void:
 	
 	# Grow sphere when clicked
-	var target := mainSphere_ScaleIn if mouseIsInside else mainSphere_ScaleOut
+	var target = 1.0
+	if mouseIsInside:
+		target = mainSphere_Scale_amnt
+	target += (cps/10)*1.125
+	
+	target = Vector3(target,target,target)
+
 	mainSphere.scale = mainSphere.scale.lerp(target, 1.0 - exp(-mainSphere_ScaleSpeed * _delta))
 	
 	# Cps is calculated outside

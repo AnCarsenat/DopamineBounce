@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dignkhfl1t2bx"]
+
+[ext_resource type="PackedScene" uid="uid://decu3cs0s0lst" path="res://clicker_game.tscn" id="1_1oj5k"]
+[ext_resource type="PackedScene" uid="uid://bctbs3vvobpj4" path="res://bounce_game.tscn" id="1_yx7mw"]
+
+[node name="MainGame" type="Control" unique_id=1541443667]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Split" type="HBoxContainer" parent="." unique_id=873215640]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(15.52, 0)
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="BounceContainer" type="SubViewportContainer" parent="Split" unique_id=2145237349]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Split/BounceContainer" unique_id=1699141979]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(494, 648)
+render_target_update_mode = 4
+
+[node name="BounceGame" parent="Split/BounceContainer/SubViewport" unique_id=1900847533 instance=ExtResource("1_yx7mw")]
+
+[node name="ClickerContainer" type="SubViewportContainer" parent="Split" unique_id=148025234]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.33
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Split/ClickerContainer" unique_id=1282402353]
+own_world_3d = true
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(658, 648)
+render_target_update_mode = 4
+
+[node name="JeuClicker" parent="Split/ClickerContainer/SubViewport" unique_id=550232895 instance=ExtResource("1_1oj5k")]
