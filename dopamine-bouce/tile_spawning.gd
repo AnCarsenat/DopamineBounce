@@ -4,6 +4,14 @@ extends Node
 @export var tile_count: int = 3
 @export var spacing: float = 10.0
 @export var tileSpeed = 8.33
+## Chance for a new tile to carry an item (whitehole or sun, equally likely).
+@export_range(0.0, 1.0) var item_chance: float = 1.0 / 12.0
+## Height of the item above the tile's centre.
+@export var item_height: float = 0.9
+## The first few tiles never carry an item.
+@export var item_free_tiles: int = 3
+var _tiles_spawned: int = 0
+@onready var effects = $"../ItemEffects"
 var activeTiles: Array[MeshInstance3D] = []
 var started := false
 ## Actual scroll speed right now; re-tuned by the ball on every bounce.
@@ -51,4 +59,15 @@ func spawn_tile(spawn_position: Vector3) -> MeshInstance3D:
 	new_tile.get_node("StaticBody3D/CollisionShape3D").disabled = false
 	get_parent().add_child(new_tile)
 	new_tile.global_position = spawn_position
+
+	_tiles_spawned += 1
+	if _tiles_spawned > item_free_tiles and randf() < item_chance:
+		var type: TileItem.Type = [TileItem.Type.WHITEHOLE, TileItem.Type.SUN].pick_random()
+		# No second copy of an effect that is already running.
+		if not effects.is_active(type):
+			var item := TileItem.new()
+			item.type = type
+			item.effects = effects
+			item.position.y = item_height
+			new_tile.add_child(item)
 	return new_tile

@@ -7,6 +7,9 @@ extends CharacterBody3D
 @export var lanes: Array[float] = [-7.0, 0.0, 7.0]
 @export var switch_speed: float = 15.0
 @onready var spawner = $"../TileSpawning"
+@onready var effects = $"../ItemEffects"
+## While a whitehole is active, a space press this long before landing still counts.
+@export var jump_buffer_time: float = 0.12
 @export var speed: Vector3 = Vector3(0 ,1080, 0)
 
 @export_group("Speed Up")
@@ -30,6 +33,7 @@ extends CharacterBody3D
 ## Current game speed, 1.0 at the start up to max_speed_multiplier.
 var speed_multiplier: float = 1.0
 var _run_time: float = 0.0
+var _jump_buffer: float = 0.0
 
 var _squash: float = 0.0 # > 0 flattened, < 0 stretched, 0 round
 var _squash_velocity: float = 0.0
@@ -61,7 +65,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# 4 Bounce on collision
-	if is_on_floor():
+	_jump_buffer = maxf(_jump_buffer - delta, 0.0)
+	if is_on_floor() and _can_bounce():
+		_jump_buffer = 0.0
 		# Only change speed at a bounce so each arc stays in sync with the tiles.
 		speed_multiplier = lerpf(1.0, max_speed_multiplier, clampf(_run_time / speed_ramp_time, 0.0, 1.0))
 		velocity.y = bounce_velocity * speed_multiplier
@@ -72,6 +78,17 @@ func _physics_process(delta: float) -> void:
 			spawner.started = true
 
 	_update_squash(delta)
+
+
+## Normally the ball always bounces. With a whitehole active it only bounces
+## if space was pressed just before or while touching the tile.
+func _can_bounce() -> bool:
+	if not effects.manual_bounce or _jump_buffer > 0.0:
+		return true
+	if effects.manual_grace > 0:
+		effects.manual_grace -= 1
+		return true
+	return false
 
 
 func _update_squash(delta: float) -> void:
@@ -87,6 +104,8 @@ func _update_squash(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+		if event.is_action_pressed("jump"):
+			_jump_buffer = jump_buffer_time
 	
 		if event.is_action_pressed("ui_left"):
 			if current_lane != 0:

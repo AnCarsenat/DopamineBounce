@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cn8w2p8ltpfh5" path="res://moon.jpg" id="4_yugjq"]
 [ext_resource type="Shader" path="res://wind_effect.gdshader" id="5_wind"]
 [ext_resource type="Script" path="res://wind_effect.gd" id="6_wind"]
+[ext_resource type="Script" path="res://item_effects.gd" id="7_fx"]
+[ext_resource type="FontFile" path="res://assets/VCR_OSD_MONO_1.001.ttf" id="8_font"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wind"]
 shader = ExtResource("5_wind")
@@ -119,5 +121,21 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_wind")
+
+[node name="ItemEffects" type="Node" parent="."]
+script = ExtResource("7_fx")
+
+[node name="Hud" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="EffectsLabel" type="Label" parent="Hud"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_font")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="DeathPlane" to="PlayerBody" method="_on_death_plane_body_entered"]
