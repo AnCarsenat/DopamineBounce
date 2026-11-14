@@ -1,6 +1,6 @@
 
 shader_type spatial;
-render_mode unshaded, depth_test_disabled, depth_draw_never, cull_disabled;
+render_mode unshaded, depth_draw_never;
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, repeat_disable, filter_nearest;
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, repeat_disable, filter_nearest;
@@ -14,9 +14,6 @@ uniform float blend_depth = 0.01;
 uniform float distance_fade_length = 50.0;
 uniform float distance_fade_blend = 20.0;
 
-void vertex() {
-        POSITION = vec4(VERTEX.xy * 2.0, 1.0, 1.0);
-}
 
 float getGrayScale(sampler2D s, vec2 uv) {
         vec3 c = texture(s, uv).rgb;
@@ -25,7 +22,9 @@ float getGrayScale(sampler2D s, vec2 uv) {
 
 float get_linear_depth(sampler2D s, vec2 uv, mat4 ipm) {
         float depth = texture(s, uv).r;
-        vec3 ndc = vec3(uv * 2.0 - 1.0, depth); // Godot 4.3+: no *2-1 on depth
+
+       	vec3 ndc = vec3(uv, depth) * 2.0 - 1.0;
+
         vec4 view = ipm * vec4(ndc, 1.0);
         view.xyz /= view.w;
         return -view.z;
