@@ -7,6 +7,8 @@ extends CharacterBody3D
 @export var lanes: Array[float] = [-7.0, 0.0, 7.0]
 @export var switch_speed: float = 15.0
 @onready var spawner = $"../TileSpawning"
+@export var speed: Vector3 = Vector3(0 ,1080, 0)
+
 
 
 var current_lane: int = 1 # 0 = Left, 1 = Center, 2 = Right
@@ -21,7 +23,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	velocity.y -= gravity * delta
-	rotation.x += 12.0 * delta
+	rotation_degrees += speed * delta
 
 
 	global_position.x = lerpf(global_position.x, lanes[current_lane], switch_speed * delta)
