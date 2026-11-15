@@ -27,16 +27,11 @@ func _ready() -> void:
 	
 
 func get_tile_pos_from_pos():
-	var curr_pos = activeTiles[0].position.x
-	print(curr_pos)
-
-	if (curr_pos == lanes[1]):
-		return lanes.pick_random()
-	if curr_pos == lanes[0]:
-		return [lanes[0],lanes[1]].pick_random()
-	if curr_pos == lanes[2]:
-		return [lanes[1],lanes[2]].pick_random()
-	return 0
+	var curr_pos = activeTiles.back().position.x
+	
+	if abs(curr_pos) < 0.1:
+		return [-7.0, 7.0].pick_random()
+	return 0.0
 		
 func _process(delta: float) -> void:
 	if started:

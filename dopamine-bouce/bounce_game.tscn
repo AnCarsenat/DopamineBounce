@@ -105,11 +105,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
 
 [node name="DeathPlane" type="Area3D" parent="." unique_id=1638415785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.743, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.889492, 0)
 script = SubResource("GDScript_wg2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathPlane" unique_id=1967146334]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028298378, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.880247, 0)
 shape = SubResource("WorldBoundaryShape3D_m6kx8")
 debug_color = Color(0.87058824, 0, 0.84705883, 1)
 
