@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://thjv7iqbgftp" path="res://main_game.gd" id="1_ykeeq"]
 [ext_resource type="PackedScene" uid="uid://bctbs3vvobpj4" path="res://bounce_game.tscn" id="1_yx7mw"]
 [ext_resource type="PackedScene" uid="uid://jrda06upwqix" path="res://annoying_ball_that_bounces.tscn" id="4_6bm6p"]
+[ext_resource type="Script" uid="uid://x6qcovmeood6" path="res://annoying_popus.gd" id="5_2pltu"]
+[ext_resource type="Texture2D" uid="uid://bn6vrufs0e8yn" path="res://assets/art/popup2.webp" id="5_dugkq"]
+[ext_resource type="Script" uid="uid://b6jjx2oinb3tv" path="res://popup.gd" id="6_f52ns"]
 
 [sub_resource type="World3D" id="World3D_5wwyc"]
 
@@ -87,3 +90,42 @@ render_target_update_mode = 4
 
 [node name="AnnoyingBallThatBounces" parent="SubViewportContainer/SubViewport" unique_id=917845389 instance=ExtResource("4_6bm6p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14177704, 0, 0.035621643)
+
+[node name="Annoying popus" type="Control" parent="." unique_id=778480882]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_2pltu")
+
+[node name="Popup" type="Control" parent="Annoying popus" unique_id=764036013]
+visible = false
+anchors_preset = 0
+offset_left = 477.0
+offset_top = 286.0
+offset_right = 517.0
+offset_bottom = 326.0
+script = ExtResource("6_f52ns")
+
+[node name="TextureRect" type="TextureRect" parent="Annoying popus/Popup" unique_id=300593412]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -189.0
+offset_right = 264.0
+offset_bottom = 323.0
+texture = ExtResource("5_dugkq")
+
+[node name="Button" type="Button" parent="Annoying popus/Popup" unique_id=1841637473]
+layout_mode = 0
+offset_left = 117.0
+offset_top = -89.0
+offset_right = 211.0
+offset_bottom = -23.0
+flat = true
+
+[node name="AnnoyingPopupTimer" type="Timer" parent="Annoying popus" unique_id=1893756119]
+wait_time = 3.0
+autostart = true
+
+[node name="Popups" type="Control" parent="Annoying popus" unique_id=1638949659]
+anchors_preset = 0
+offset_transform_position = Vector2(500, 0)
