@@ -5,7 +5,7 @@ extends Node
 ## multiplier is derived from it so one platform passes every beat. The music
 ## track whose BPM is closest plays, pitch-shifted to match the exact BPM.
 
-@export var start_bpm: float = 70.0
+@export var start_bpm: float = 105 #70.0
 @export var max_bpm: float = 105.0
 ## Seconds of play to go from start_bpm to max_bpm.
 @export var ramp_time: float = 90.0
@@ -16,8 +16,8 @@ extends Node
 
 ## BPM -> track. Each track must start on a beat.
 var tracks := {
-	85.0: preload("res://assets/music/GameJam85.mp3"),
-	105.0: preload("res://assets/music/GameJam105.mp3"),
+	80.0: preload("res://assets/music/GameJam85.mp3"),
+	90.0: preload("res://assets/music/GameJam105.mp3"),
 }
 
 ## Seconds between platforms at multiplier 1. Set by the ball from its bounce physics.
@@ -36,6 +36,7 @@ func _ready() -> void:
 	for stream in tracks.values():
 		stream.loop = true
 	reset()
+	
 
 
 ## Back to the start speed and silence. Called when the run (re)starts.

@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://jrda06upwqix"]
+
+[ext_resource type="Script" uid="uid://bsetdlggsu0fy" path="res://annoying_ball_that_bounces.gd" id="1_jqvsi"]
+[ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="2_5wwyc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jxcdy"]
+radius = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5wwyc"]
+render_priority = 0
+shader = ExtResource("2_5wwyc")
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/threshold = 0.0
+shader_parameter/blend = 0.01
+shader_parameter/enable_depth_pass = true
+shader_parameter/threshold_depth = 0.0
+shader_parameter/blend_depth = 0.01
+shader_parameter/distance_fade_length = 50.0
+shader_parameter/distance_fade_blend = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxra2"]
+next_pass = SubResource("ShaderMaterial_5wwyc")
+
+[sub_resource type="SphereMesh" id="SphereMesh_jxcdy"]
+material = SubResource("StandardMaterial3D_wxra2")
+radius = 3.0
+height = 6.0
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_5wwyc"]
+
+[node name="AnnoyingBallThatBounces" type="Node3D" unique_id=917845389]
+script = ExtResource("1_jqvsi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145289202]
+transform = Transform3D(0.97141725, -0.16808131, 0.16762203, 0.060343966, 0.85779583, 0.51043576, -0.2295802, -0.48573115, 0.8434205, 0.7506418, 12.046057, 10.830569)
+
+[node name="Ball" type="RigidBody3D" parent="." unique_id=153181341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.707571, 2, 0)
+mass = 0.115
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=637921651]
+shape = SubResource("SphereShape3D_jxcdy")
+debug_color = Color(0.8921234, 0, 0.19360057, 0.41960785)
+
+[node name="visibleShape3D" type="MeshInstance3D" parent="Ball" unique_id=1160983758]
+mesh = SubResource("SphereMesh_jxcdy")
+
+[node name="GroundCol" type="StaticBody3D" parent="." unique_id=216231350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.4995, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundCol" unique_id=1034275518]
+transform = Transform3D(5.09, 0, 0, 0, 5.09, 0, 0, 0, 5.09, 0, -8, 0)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="GroundCol" unique_id=1536911516]
+transform = Transform3D(-5.325, -8.040526e-07, 0, 8.040526e-07, -5.325, 0, 0, 0, 5.325, 0, 9, 0)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="GroundCol" unique_id=776123347]
+transform = Transform3D(-1.6828884e-07, 3.85, 0, -3.85, -1.6828884e-07, 0, 0, 0, 3.85, -26.221428, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="GroundCol" unique_id=1489095437]
+transform = Transform3D(1.4883727e-07, -3.405, -5.141407e-07, -3.405, -1.4883727e-07, 0, -2.2473803e-14, 5.141407e-07, -3.405, 28.281864, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="GroundCol" unique_id=2067804062]
+transform = Transform3D(-1.3332479e-14, 3.0501153e-07, -4.04, -4.04, -1.7659401e-07, 1.7110065e-21, -1.7659401e-07, 4.04, 3.0501153e-07, 0, 0, -9)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="GroundCol" unique_id=1454421739]
+transform = Transform3D(3.1049697e-14, -7.1033423e-07, 4.36, -4.36, -1.9058166e-07, 0, 1.9058166e-07, -4.36, -7.1033423e-07, 0, 0, 9)
+shape = SubResource("WorldBoundaryShape3D_5wwyc")
+debug_color = Color(1, 0.5372549, 0.6745098, 1)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=665252520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 52)
+fov = 16.0
+
+[node name="BounceTimer" type="Timer" parent="." unique_id=966643541]
+wait_time = 4.0
+autostart = true

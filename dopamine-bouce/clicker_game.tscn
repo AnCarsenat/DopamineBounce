@@ -3,18 +3,9 @@
 [ext_resource type="Script" uid="uid://0bmx323epuih" path="res://clicker_game.gd" id="1_2gcxp"]
 [ext_resource type="Shader" uid="uid://nmjys4mjagdx" path="res://clicker_game_edge_shader.gdshader" id="1_l1c2j"]
 [ext_resource type="Script" uid="uid://d1vd1ixmojic" path="res://camera_shake.gd" id="2_shake"]
+[ext_resource type="PackedScene" uid="uid://crvf82k6jh6en" path="res://world_environment.tscn" id="3_kcwbx"]
 [ext_resource type="FontFile" uid="uid://d22dvwe7o7jk" path="res://assets/VCR_OSD_MONO_1.001.ttf" id="4_3ob8g"]
 [ext_resource type="Script" uid="uid://eus218lrjveg" path="res://infohud_control.gd" id="5_yqv28"]
-
-[sub_resource type="Environment" id="Environment_jxcdy"]
-background_mode = 1
-background_color = Color(0.58103293, 0.581033, 0.58103275, 1)
-background_energy_multiplier = 2.0
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_7fbwm"]
-
-[sub_resource type="Compositor" id="Compositor_2vgao"]
-compositor_effects = Array[CompositorEffect]([null])
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q14dx"]
 render_priority = 0
@@ -49,13 +40,7 @@ fov = 104.4
 [node name="CameraShake" type="Node" parent="Camera3D" unique_id=1048399468]
 script = ExtResource("2_shake")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=158743390]
-environment = SubResource("Environment_jxcdy")
-camera_attributes = SubResource("CameraAttributesPractical_7fbwm")
-compositor = SubResource("Compositor_2vgao")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1304178671]
-transform = Transform3D(0.6261737, -0.46137038, 0.6285252, -0.10488581, 0.7489557, 0.6542661, -0.77259666, -0.47560763, 0.4205851, 0, 0, 0)
+[node name="WorldEnvironment" parent="." unique_id=119990254 instance=ExtResource("3_kcwbx")]
 
 [node name="MainBall" type="MeshInstance3D" parent="." unique_id=980756025]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99387515, 0, 3.0931175)
