@@ -25,6 +25,19 @@ func _ready() -> void:
 	tile.visible = false
 	tile.get_node("StaticBody3D/CollisionShape3D").disabled = true
 	
+
+func get_tile_pos_from_pos():
+	var curr_pos = activeTiles[0].position.x
+	print(curr_pos)
+
+	if (curr_pos == lanes[1]):
+		return lanes.pick_random()
+	if curr_pos == lanes[0]:
+		return [lanes[0],lanes[1]].pick_random()
+	if curr_pos == lanes[2]:
+		return [lanes[1],lanes[2]].pick_random()
+	return 0
+		
 func _process(delta: float) -> void:
 	if started:
 		for tile in activeTiles.duplicate():
@@ -33,10 +46,11 @@ func _process(delta: float) -> void:
 				tile.queue_free()
 				activeTiles.erase(tile)
 	
+	
 	while activeTiles.size() < 3:
 		var z = 0.0 if activeTiles.is_empty() else activeTiles.back().position.z - spacing
 		# The ball starts over the middle lane, so the very first tile must be there.
-		var lane_x: float = lanes[lanes.size() / 2] if _tiles_spawned == 0 else lanes.pick_random()
+		var lane_x: float = lanes[lanes.size() / 2] if _tiles_spawned == 0 else get_tile_pos_from_pos()
 		activeTiles.append(spawn_tile(Vector3(lane_x, -1, z)))
 
 
